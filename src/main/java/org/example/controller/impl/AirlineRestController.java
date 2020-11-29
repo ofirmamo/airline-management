@@ -3,6 +3,7 @@ package org.example.controller.impl;
 import org.example.controller.AirlineController;
 import org.example.dto.Airline;
 import org.example.dto.AirlineDetails;
+import org.example.dto.Distance;
 import org.example.entity.AirlineEntity;
 import org.example.service.AirlineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -37,5 +39,11 @@ public class AirlineRestController implements AirlineController {
     @GetMapping("/details")
     public ResponseEntity<List<AirlineDetails>> retrieveAirlines() {
         return ResponseEntity.ok(this.service.retrieveAirlines());
+    }
+
+    @Override
+    @GetMapping("distances")
+    public ResponseEntity<List<Distance>> getAllDistancesFromDestinations(@NotEmpty @RequestParam String airlineName) {
+        return ResponseEntity.ok(this.service.distanceFromAllDestinations(airlineName));
     }
 }

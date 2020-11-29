@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 /**
  * @author Ofir Mamo
  */
@@ -33,5 +37,13 @@ public class DestinationServiceV1 implements DestinationService {
         } catch (DataIntegrityViolationException e) {
             throw new LocationExistException(destinationEntity.getName());
         }
+    }
+
+    @Override
+    public List<Destination> getAllDestinations() {
+        // Only reading no locking is needed..
+        return StreamSupport.stream(this.repository.findAll().spliterator(), false)
+                .map(destinationEntity -> this.mapper.map(destinationEntity, Destination.class))
+                .collect(Collectors.toList());
     }
 }
