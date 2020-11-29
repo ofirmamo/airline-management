@@ -47,23 +47,6 @@ class DestinationRestControllerTest {
     }
 
     @Test
-    void twiceAdd() throws Exception {
-        Destination destination = new Destination("Ben Gurion Airport2", new Coordinate(34.88542, 32.00569));
-
-        MvcResult result = this.mvc.perform(
-                post(END_POINT).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(destination))
-        ).andExpect(status().isOk()).andReturn();
-
-        DestinationEntity entity = this.mapper.readValue(result.getResponse().getContentAsString(), DestinationEntity.class);
-        assertEquals(destination.getName(), entity.getName());
-
-        destination.getLocation().setAltitude(10);
-        result = this.mvc.perform(
-                post(END_POINT).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(destination))
-        ).andExpect(status().isConflict()).andReturn();
-    }
-
-    @Test
     void nullCoordinate() throws Exception {
         Destination destination = new Destination("Ben Gurion Airport", null);
 
