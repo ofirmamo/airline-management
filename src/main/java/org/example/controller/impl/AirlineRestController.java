@@ -2,16 +2,15 @@ package org.example.controller.impl;
 
 import org.example.controller.AirlineController;
 import org.example.dto.Airline;
+import org.example.dto.AirlineDetails;
 import org.example.entity.AirlineEntity;
 import org.example.service.AirlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Ofir Mamo
@@ -32,5 +31,11 @@ public class AirlineRestController implements AirlineController {
     @PostMapping
     public ResponseEntity<AirlineEntity> addAirline(@RequestBody @Valid Airline airline) {
         return ResponseEntity.ok(this.service.addAirline(airline));
+    }
+
+    @Override
+    @GetMapping("/details")
+    public ResponseEntity<List<AirlineDetails>> retrieveAirlines() {
+        return ResponseEntity.ok(this.service.retrieveAirlines());
     }
 }

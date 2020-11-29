@@ -1,15 +1,16 @@
 package org.example.mapper;
 
 import org.example.dto.Airline;
+import org.example.dto.AirlineDetails;
 import org.example.dto.Coordinate;
 import org.example.dto.Destination;
 import org.example.dto.mappers.AirlinePropertyMap;
 import org.example.entity.AirlineEntity;
 import org.example.entity.DestinationEntity;
+import org.example.entity.mapper.AirlineDetailsPropertyMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +25,7 @@ class MapperTests {
     public void setUp() {
         this.mapper = new ModelMapper();
         this.mapper.addMappings(new AirlinePropertyMap());
+        this.mapper.addMappings(new AirlineDetailsPropertyMap());
     }
 
     @Test
@@ -48,5 +50,17 @@ class MapperTests {
         assertEquals(airline.getHomeBaseLocation().getAltitude(), entity.getHomeBaseLocation().getLocation().getAltitude());
         assertEquals(airline.getHomeBaseLocation().getLongitude(), entity.getHomeBaseLocation().getLocation().getLongitude());
         assertEquals(airline.getName(), entity.getHomeBaseLocation().getName());
+    }
+
+    @Test
+    void airlineDetailsMapper() {
+        AirlineEntity entity = new AirlineEntity();
+        entity.setId(0);
+        entity.setBudget(10);
+        entity.setName("Airline Testi KUKU");
+
+        AirlineDetails details = this.mapper.map(entity, AirlineDetails.class);
+        assertEquals(entity.getName(), details.getName());
+        assertEquals(entity.getBudget(), details.getBalance());
     }
 }

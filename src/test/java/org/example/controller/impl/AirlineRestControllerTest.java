@@ -87,7 +87,7 @@ class AirlineRestControllerTest {
 
     @Test
     void invalidName() throws Exception {
-        Airline airline1 = new Airline("x", 30, new Coordinate(10, 50.9));
+        Airline airline1 = new Airline("", 30, new Coordinate(10, 50.9));
         this.mvc.perform(
                 post(END_POINT).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(airline1))
         ).andExpect(status().isBadRequest()).andReturn();
