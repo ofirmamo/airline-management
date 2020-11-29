@@ -8,9 +8,9 @@ import javax.persistence.*;
  * @author Ofir Mamo
  */
 @Entity
-@Table(name = "destinations")
+@Table(name = "airlines")
 @Data
-public class DestinationEntity {
+public class AirlineEntity {
 
     @Id @GeneratedValue
     private long id;
@@ -18,6 +18,9 @@ public class DestinationEntity {
     @Column(unique = true)
     private String name;
 
+    private double budget;
+
     @OneToOne(cascade = CascadeType.ALL)
-    private CoordinateEntity location;
+    private DestinationEntity homeBaseLocation;
+
 }
