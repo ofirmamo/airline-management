@@ -2,8 +2,10 @@ package org.example.controller.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.dto.Aircraft;
 import org.example.dto.Airline;
 import org.example.dto.Coordinate;
+import org.example.entity.AircraftEntity;
 import org.example.entity.AirlineEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

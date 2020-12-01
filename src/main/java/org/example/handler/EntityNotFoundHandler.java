@@ -1,5 +1,6 @@
 package org.example.handler;
 
+import org.example.exception.AircraftNotFoundException;
 import org.example.exception.AirlineNotExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,13 @@ public class EntityNotFoundHandler {
 
     @ExceptionHandler(AirlineNotExistException.class)
     public ResponseEntity<RestRequestError> handle(AirlineNotExistException e) {
+        this.logger.info(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new RestRequestError(HttpStatus.NOT_FOUND, e.getMessage()));
+    }
+
+    @ExceptionHandler(AircraftNotFoundException.class)
+    public ResponseEntity<RestRequestError> handle(AircraftNotFoundException e) {
         this.logger.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new RestRequestError(HttpStatus.NOT_FOUND, e.getMessage()));

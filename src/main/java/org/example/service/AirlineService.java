@@ -39,4 +39,10 @@ public interface AirlineService {
      */
     AirlineEntity getAirline(String name);
 
+    /**
+     * Sells and aircraft based pn formula [price * (1 - monthsInUse * 0.02)]
+     * @param aircraftId aircraft Id to sell
+     */
+    void sellAircraft(String airlineName, long aircraftId);
+
 }

@@ -32,4 +32,11 @@ public interface AirlineController {
      * @return list of name of destination and distance from airline.
      */
     ResponseEntity<List<Distance>> getAllDistancesFromDestinations(String airlineName);
+
+    /**
+     * Sells an aircraft of air line company.
+     * @param airlineName air line company name.
+     * @param aircraftId aircraft id.
+     */
+    void sellAircraft(String airlineName, long aircraftId);
 }

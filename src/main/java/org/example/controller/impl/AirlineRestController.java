@@ -7,6 +7,7 @@ import org.example.dto.Distance;
 import org.example.entity.AirlineEntity;
 import org.example.service.AirlineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,5 +46,12 @@ public class AirlineRestController implements AirlineController {
     @GetMapping("distances")
     public ResponseEntity<List<Distance>> getAllDistancesFromDestinations(@NotEmpty @RequestParam String airlineName) {
         return ResponseEntity.ok(this.service.distanceFromAllDestinations(airlineName));
+    }
+
+    @Override
+    @PostMapping("/sell/{airlineName}/{aircraftId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void sellAircraft(@PathVariable String airlineName, @PathVariable long aircraftId) {
+        this.service.sellAircraft(airlineName, aircraftId);
     }
 }

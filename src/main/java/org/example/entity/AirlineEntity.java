@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "airlines")
 @Data
+@NoArgsConstructor
 public class AirlineEntity {
 
     @Id @GeneratedValue
