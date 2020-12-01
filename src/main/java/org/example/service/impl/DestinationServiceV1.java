@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import java.util.stream.StreamSupport;
  * @author Ofir Mamo
  */
 @Service
+@Transactional(readOnly = true)
 public class DestinationServiceV1 implements DestinationService {
 
     private final DestinationsRepository repository;
@@ -30,6 +32,7 @@ public class DestinationServiceV1 implements DestinationService {
     }
 
     @Override
+    @Transactional
     public DestinationEntity addDestination(Destination destination) {
         DestinationEntity destinationEntity = this.mapper.map(destination, DestinationEntity.class);
         try {

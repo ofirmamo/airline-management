@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ import java.util.stream.StreamSupport;
  * @author Ofir Mamo
  */
 @Service
+@Transactional(readOnly = true)
 public class AirlineServiceV1 implements AirlineService {
 
     private final ModelMapper mapper;
@@ -42,6 +44,7 @@ public class AirlineServiceV1 implements AirlineService {
     }
 
     @Override
+    @Transactional
     public AirlineEntity addAirline(Airline airline) {
         AirlineEntity entity = this.mapper.map(airline, AirlineEntity.class);
         try {
@@ -61,7 +64,6 @@ public class AirlineServiceV1 implements AirlineService {
 
     @Override
     public List<Distance> distanceFromAllDestinations(String airlineName) {
-        // Read only no locking is needed ..
         AirlineEntity airlineEntity = this.repository.findByName(airlineName);
         if(airlineEntity == null) {
             throw new AirlineNotExistException(airlineName);
