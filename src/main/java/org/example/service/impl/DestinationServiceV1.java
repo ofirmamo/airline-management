@@ -7,7 +7,6 @@ import org.example.repository.DestinationsRepository;
 import org.example.service.DestinationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +33,12 @@ public class DestinationServiceV1 implements DestinationService {
     @Override
     @Transactional
     public DestinationEntity addDestination(Destination destination) {
-        DestinationEntity destinationEntity = this.mapper.map(destination, DestinationEntity.class);
-        try {
-            return this.repository.save(destinationEntity);
-        } catch (DataIntegrityViolationException e) {
-            throw new LocationExistException(destinationEntity.getName());
+        if(this.repository.findByName(destination.getName()) != null) {
+            throw new LocationExistException(destination.getName());
         }
+
+        DestinationEntity destinationEntity = this.mapper.map(destination, DestinationEntity.class);
+        return this.repository.save(destinationEntity);
     }
 
     @Override

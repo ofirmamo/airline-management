@@ -15,7 +15,6 @@ import org.example.service.AirlineService;
 import org.example.service.DestinationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,12 +45,12 @@ public class AirlineServiceV1 implements AirlineService {
     @Override
     @Transactional
     public AirlineEntity addAirline(Airline airline) {
-        AirlineEntity entity = this.mapper.map(airline, AirlineEntity.class);
-        try {
-            return this.repository.save(entity);
-        } catch (DataIntegrityViolationException e) {
-            throw new AirlineExistException(entity.getName());
+        if(this.repository.findByName(airline.getName()) != null) {
+            throw new AirlineExistException("Airline already exist: " + airline.getName());
         }
+
+        AirlineEntity entity = this.mapper.map(airline, AirlineEntity.class);
+        return this.repository.save(entity);
     }
 
     @Override

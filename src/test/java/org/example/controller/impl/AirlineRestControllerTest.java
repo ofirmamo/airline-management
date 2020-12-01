@@ -58,6 +58,7 @@ class AirlineRestControllerTest {
                 post(END_POINT).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(airline))
         ).andExpect(status().isOk()).andReturn();
 
+        airline.getHomeBaseLocation().setAltitude(30);
         // expecting CONFLICT
         this.mvc.perform(
                 post(END_POINT).contentType(MediaType.APPLICATION_JSON).content(this.mapper.writeValueAsString(airline))

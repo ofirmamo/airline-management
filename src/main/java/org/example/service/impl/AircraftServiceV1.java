@@ -38,6 +38,7 @@ public class AircraftServiceV1 implements AircraftService {
         if(airline == null) {
             throw new AirlineNotExistException(aircraft.getAirlineName());
         }
+
         AircraftEntity entity = this.mapper.map(aircraft, AircraftEntity.class);
         entity.setAirline(airline);
         return this.repository.save(entity);
