@@ -1,10 +1,8 @@
 package org.example.mapper;
 
-import org.example.dto.Airline;
-import org.example.dto.AirlineDetails;
-import org.example.dto.Coordinate;
-import org.example.dto.Destination;
+import org.example.dto.*;
 import org.example.dto.mappers.AirlinePropertyMap;
+import org.example.entity.AircraftEntity;
 import org.example.entity.AirlineEntity;
 import org.example.entity.DestinationEntity;
 import org.example.entity.mapper.AirlineDetailsPropertyMap;
@@ -62,5 +60,15 @@ class MapperTests {
         AirlineDetails details = this.mapper.map(entity, AirlineDetails.class);
         assertEquals(entity.getName(), details.getName());
         assertEquals(entity.getBudget(), details.getBalance());
+    }
+
+    @Test
+    void aircraftToEntityTest() {
+        Aircraft airCraft = new Aircraft("my air line", 1000, 10000);
+        AircraftEntity entity = this.mapper.map(airCraft, AircraftEntity.class);
+
+        assertEquals(airCraft.getPrice(), entity.getPrice());
+        assertEquals(airCraft.getMaxKilometers(), entity.getMaxKilometers());
+        assertNull(entity.getPurchased());
     }
 }

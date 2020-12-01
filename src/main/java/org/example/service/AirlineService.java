@@ -32,4 +32,11 @@ public interface AirlineService {
      */
     List<Distance> distanceFromAllDestinations(String airlineName);
 
+    /**
+     * Return airline by it's name
+     * @param name name of the airline
+     * @return airline as in the database.
+     */
+    AirlineEntity getAirline(String name);
+
 }

@@ -75,6 +75,11 @@ public class AirlineServiceV1 implements AirlineService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public AirlineEntity getAirline(String name) {
+        return this.repository.findByName(name);
+    }
+
     private double getDistanceFromAirline(Destination destination, AirlineEntity airlineEntity) {
         double airlineAlt = airlineEntity.getHomeBaseLocation().getLocation().getAltitude();
         double airlineLong = airlineEntity.getHomeBaseLocation().getLocation().getLongitude();
