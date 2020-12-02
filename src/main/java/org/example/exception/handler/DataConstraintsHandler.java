@@ -1,4 +1,4 @@
-package org.example.handler;
+package org.example.exception.handler;
 
 import org.example.exception.AirlineExistException;
 import org.example.exception.ForbiddenRequestException;
