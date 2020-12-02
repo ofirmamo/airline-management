@@ -51,7 +51,14 @@ public class AirlineRestController implements AirlineController {
     @Override
     @PostMapping("/sell/{airlineName}/{aircraftId}")
     @ResponseStatus(HttpStatus.OK)
-    public void sellAircraft(@PathVariable String airlineName, @PathVariable long aircraftId) {
+    public void sellAircraft(@PathVariable @Valid String airlineName, @PathVariable @Valid long aircraftId) {
         this.service.sellAircraft(airlineName, aircraftId);
+    }
+
+    @Override
+    @PostMapping("buy/{buying}")
+    @ResponseStatus(HttpStatus.OK)
+    public void buyAircraft(@PathVariable @NotEmpty String buying, @RequestParam @NotEmpty String selling, @RequestParam long aircraftId) {
+        this.service.buyAircraft(buying, selling, aircraftId);
     }
 }

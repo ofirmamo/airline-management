@@ -45,4 +45,12 @@ public interface AirlineService {
      */
     void sellAircraft(String airlineName, long aircraftId);
 
+    /**
+     * Option to buy aircraft from another airline.
+     * @param buyingAirline buying air line
+     * @param sellingAirline selling airline
+     * @param aircraftId aircraft ID.
+     */
+    void buyAircraft(String buyingAirline, String sellingAirline, long aircraftId);
+
 }

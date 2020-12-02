@@ -13,6 +13,7 @@ import org.example.entity.mapper.AirlineDetailsPropertyMap;
 import org.example.exception.AircraftNotFoundException;
 import org.example.exception.AirlineExistException;
 import org.example.exception.AirlineNotExistException;
+import org.example.exception.ForbiddenRequestException;
 import org.example.repository.AircraftRepository;
 import org.example.repository.AirlineRepository;
 import org.example.service.AirlineService;
@@ -83,7 +84,11 @@ public class AirlineServiceV1 implements AirlineService {
 
     @Override
     public AirlineEntity getAirline(String name) {
-        return this.repository.findByName(name);
+        AirlineEntity entity = this.repository.findByName(name);
+        if(entity == null) {
+            throw new AirlineNotExistException("Cannot find airline: " + name);
+        }
+        return entity;
     }
 
     @Override
@@ -102,6 +107,29 @@ public class AirlineServiceV1 implements AirlineService {
         // delete and update airline & aircraft.
         this.repository.save(airline);
         this.aircraftRepository.deleteById(aircraftId);
+    }
+
+    @Override
+    @Transactional
+    public void buyAircraft(String buyingAirline, String sellingAirline, long aircraftId) {
+        AircraftEntity aircraft = this.aircraftRepository.findById(aircraftId)
+                .filter(aircraftEntity -> aircraftEntity.getAirline().getName().equals(sellingAirline))
+                .orElseThrow(() -> new AircraftNotFoundException(aircraftId));
+        AirlineEntity buying = this.getAirline(buyingAirline);
+
+        double aircraftPrice = Utils.airlinePrice(aircraft.getPrice(), aircraft.getPurchased().toLocalDateTime().toLocalDate(), LocalDate.now());
+        if(buying.getBudget() < aircraftPrice) {
+            throw new ForbiddenRequestException("Budget of airline " + buyingAirline + " not sufficient to buy aircraft with id: " + aircraftId);
+        }
+
+        AirlineEntity selling = aircraft.getAirline();
+        buying.setBudget(buying.getBudget() - aircraftPrice);
+        selling.setBudget(selling.getBudget() + aircraftPrice);
+        aircraft.setAirline(buying);
+
+        this.repository.save(selling);
+        this.repository.save(buying);
+        this.aircraftRepository.save(aircraft);
     }
 
     private double getDistanceFromAirline(Destination destination, AirlineEntity airlineEntity) {

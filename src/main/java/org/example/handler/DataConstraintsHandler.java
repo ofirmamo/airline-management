@@ -1,6 +1,7 @@
 package org.example.handler;
 
 import org.example.exception.AirlineExistException;
+import org.example.exception.ForbiddenRequestException;
 import org.example.exception.LocationExistException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +19,23 @@ public class DataConstraintsHandler {
     private final Logger logger = LoggerFactory.getLogger(DataConstraintsHandler.class);
 
     @ExceptionHandler(LocationExistException.class)
-    ResponseEntity<RestRequestError> handle(LocationExistException e) {
+    public ResponseEntity<RestRequestError> handle(LocationExistException e) {
         logger.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).
                 body(new RestRequestError(HttpStatus.CONFLICT, e.getMessage()));
     }
 
     @ExceptionHandler(AirlineExistException.class)
-    ResponseEntity<RestRequestError> handle(AirlineExistException e) {
+    public ResponseEntity<RestRequestError> handle(AirlineExistException e) {
         logger.info(e.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).
                 body(new RestRequestError(HttpStatus.CONFLICT, e.getMessage()));
+    }
+
+    @ExceptionHandler(ForbiddenRequestException.class)
+    public ResponseEntity<RestRequestError> handle(ForbiddenRequestException e) {
+        logger.info(e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new RestRequestError(HttpStatus.FORBIDDEN, e.getMessage()));
     }
 }

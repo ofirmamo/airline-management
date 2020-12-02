@@ -39,4 +39,12 @@ public interface AirlineController {
      * @param aircraftId aircraft id.
      */
     void sellAircraft(String airlineName, long aircraftId);
+
+    /**
+     * Buys aircraft.
+     * @param buying Buying airline
+     * @param selling selling airline
+     * @param aircraftId aircraft Id
+     */
+    void buyAircraft(String buying, String selling, long aircraftId);
 }

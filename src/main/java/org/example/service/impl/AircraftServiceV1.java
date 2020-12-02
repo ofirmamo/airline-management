@@ -3,7 +3,6 @@ package org.example.service.impl;
 import org.example.dto.Aircraft;
 import org.example.entity.AircraftEntity;
 import org.example.entity.AirlineEntity;
-import org.example.exception.AirlineNotExistException;
 import org.example.repository.AircraftRepository;
 import org.example.service.AircraftService;
 import org.example.service.AirlineService;
@@ -35,11 +34,8 @@ public class AircraftServiceV1 implements AircraftService {
     @Transactional
     public AircraftEntity addAircraft(Aircraft aircraft) {
         AirlineEntity airline = this.airlineService.getAirline(aircraft.getAirlineName());
-        if(airline == null) {
-            throw new AirlineNotExistException(aircraft.getAirlineName());
-        }
-
         AircraftEntity entity = this.mapper.map(aircraft, AircraftEntity.class);
+
         entity.setAirline(airline);
         return this.repository.save(entity);
     }
