@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -130,6 +131,25 @@ public class AirlineServiceV1 implements AirlineService {
         this.repository.save(selling);
         this.repository.save(buying);
         this.aircraftRepository.save(aircraft);
+    }
+
+    @Override
+    public List<Distance> availableDestinations(String airlineName) {
+        // if airline not exist, the first function is throwing the relevant exception.
+        List<Distance> destinations = this.distanceFromAllDestinations(airlineName);
+        double maxAvailableKm = this.getMaxAvailableKm(airlineName);
+
+        return destinations.stream().filter(destination -> (destination.getDistanceInMeters() / (double) 1000) <= maxAvailableKm )
+                .collect(Collectors.toList());
+    }
+
+    private double getMaxAvailableKm(String airlineName) {
+        return StreamSupport.stream(this.aircraftRepository.findAll().spliterator(), false)
+                .filter(aircraftEntity -> aircraftEntity.getAirline().getName().equals(airlineName))
+                .map(AircraftEntity::getMaxKilometers)
+                .sorted(Comparator.reverseOrder())
+                .findFirst()
+                .orElse((double) 0);
     }
 
     private double getDistanceFromAirline(Destination destination, AirlineEntity airlineEntity) {

@@ -61,4 +61,10 @@ public class AirlineRestController implements AirlineController {
     public void buyAircraft(@PathVariable @NotEmpty String buying, @RequestParam @NotEmpty String selling, @RequestParam long aircraftId) {
         this.service.buyAircraft(buying, selling, aircraftId);
     }
+
+    @Override
+    @GetMapping("/available-destinations")
+    public ResponseEntity<List<Distance>> availableDestinations(@NotEmpty @RequestParam String airlineName) {
+        return ResponseEntity.ok(this.service.availableDestinations(airlineName));
+    }
 }

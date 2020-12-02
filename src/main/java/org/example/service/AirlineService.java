@@ -53,4 +53,11 @@ public interface AirlineService {
      */
     void buyAircraft(String buyingAirline, String sellingAirline, long aircraftId);
 
+    /**
+     * List all available destinations from a given airline.
+     * @param airlineName airline name
+     * @return List of all available destinations
+     */
+    List<Distance> availableDestinations(String airlineName);
+
 }

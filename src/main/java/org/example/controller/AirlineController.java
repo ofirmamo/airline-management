@@ -47,4 +47,11 @@ public interface AirlineController {
      * @param aircraftId aircraft Id
      */
     void buyAircraft(String buying, String selling, long aircraftId);
+
+    /**
+     * List available destinations from current airline.
+     * @param airlineName airline name.
+     * @return List all available destination and their distance.
+     */
+    ResponseEntity<List<Distance>> availableDestinations(String airlineName);
 }
